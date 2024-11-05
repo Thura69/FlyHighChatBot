@@ -16,8 +16,8 @@ export async function GET(req: any, res: any) {
   try {
     const embeddings = [];
 
-    const prompt = `Please ask the user to specify the number of copies they plan to distribute in the following format: 
-    "Please tell us the number of copies you plan to distribute (e.g. 10,000 copies)"`;
+    // const prompt = `Please ask the user to specify the number of copies they plan to distribute in the following format: 
+    // "Please tell us the number of copies you plan to distribute (e.g. 10,000 copies)"`;
 
     for (const item of dataset) {
       const response = await openai.embeddings.create({

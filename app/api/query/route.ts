@@ -34,8 +34,8 @@ function cosineSimilarity(vec1: any, vec2: any) {
   return dotProduct / (magnitudeA * magnitudeB);
 }
 
-export async function POST(req: any, res: any) {
-  const { query, step, conversation } = await req.json();
+export async function POST(req: any) {
+  const { query, step } = await req.json();
 
   let ConversationStep = step;
 
@@ -46,14 +46,12 @@ export async function POST(req: any, res: any) {
     });
     const queryEmbedding = queryEmbeddingResponse.data[0].embedding;
 
-    let bestMatch = null;
     let highestSimilarity = -1;
 
     embeddings.forEach((item: any) => {
       const similarity = cosineSimilarity(queryEmbedding, item.embedding);
       if (similarity > highestSimilarity) {
         highestSimilarity = similarity;
-        bestMatch = item.text;
       }
     });
 
@@ -128,7 +126,7 @@ Use the reference: 'ジムの集客用折込ですね'.
 
 If "${query}" is not included in the list, respond exactly with 'false' (not 'False', just 'false').
 
-If "${query}" is included in the list, response では、メインターゲットを教えてください (例：30代女性, 25代男性)
+If "${query}" is included in the list, response では、メインターゲットを教えてください （例：30代女性、 20代男性）
 
 `;
     } else if (ConversationStep === 3) {
