@@ -90,7 +90,7 @@ export async function POST(req: any) {
   (a) If the value before '部' is equal to 3,000 or greater than 3,000.
   
   (b) Respond exactly with:
-      ありがとうございます。では、今回のチラシ配布の目的を教えてください (例：新規オープンするパーソナルジムの集客案内チラシ). "{{{plain number}}}"
+      ありがとうございます。では、今回のチラシ配布の目的を教えてください /br (例：新規オープンするパーソナルジムの集客案内チラシ). "{{{plain number}}}"
       where {{{plain number}}} is the converted number.
 
   If "${query}" does not meet any of these criteria, respond with 'false' (not 'False', just 'false').
@@ -98,15 +98,14 @@ export async function POST(req: any) {
   `;
     } else if (ConversationStep === 1) {
       prompt = `
-Translate "${query}" into Japanese. If the meaning of "${query}" is not related to flyer distribution or is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"), respond only exactly 'notBusiness'.
+Translate "${query}" into Japanese. If the meaning of "${query}" is not related to flyer distribution or is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"),respond exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
 
 Then, respond exactly with : 
-配布タイプを選択して下さい。
-標準配布 ""
-一軒家指定 ""
-集合住宅指定 ""
-会社・店舗除外配布 /{{{BusinessName}}}/
-
+配布タイプを選択して下さい。/br
+• 標準配布 /br
+• 一軒家指定 /br
+• 集合住宅指定 /br
+• 会社・店舗除外配布 /{{{BusinessName}}}/
 
 where {{{BusinessName}}} is the related to flyer distribution or is inappropriate for business name from ${query}.
 
@@ -126,27 +125,29 @@ Use the reference: 'ジムの集客用折込ですね'.
 
 If "${query}" is not included in the list, respond exactly with 'false' (not 'False', just 'false').
 
-If "${query}" is included in the list, response では、メインターゲットを教えてください （例：30代女性、 20代男性）
+If "${query}" is included in the list, response では、メインターゲットを教えてください /br (例:30代女性, 20男性)
 
 `;
     } else if (ConversationStep === 3) {
+
+    console.log(query)
+
       prompt = `
- The "${query}" format must meet these exact criteria:
+ Ensure the "${query}" follows this exact format:
 
-  1.It must contain a number between 0 and 150.
-  2.The number must be followed exactly by either:
-     (a) 代女性 or
-     (b) 代男性
+ 1. The format must be one of the following:
+    (a) A number followed by 代女性 (e.g., 20代女性)
+    (b) A number followed by 男性 (e.g., 30男性)
 
-  For example: "30代女性" or "40代男性".
-
-
-  If the format does not match this structure or if the number is outside the range of 0 to 150, respond exactly with 'false' (not 'False', just 'false').
-
+ 2. Number Range:
+    The number in front of 代女性 or 男性 must be between 0 and 150 (inclusive).
   
+
+If it doesn't match this structure or the number is out of range,respond exactly with 'false' (not 'False', just 'false').
+
   If the format is valid, respond with:
- "最後に集客の中心はどこを想定していますか？ //{{{ageAndGender}}}// "
- Then, List the three best places in Japan to distribute flyers for ${OPENAIVALUES[1].value} business, specifically targeting ${query}. Please provide only the names of the locations., using bullet points. 
+ "最後に集客の中心はどこを想定していますか？  //{{{ageAndGender}}}// "
+ Then, List the three best places in Nerima City in Japan to distribute flyers for ${OPENAIVALUES[1].value} business, specifically targeting ${query}. Please provide only the names of the locations., using /br in front of each list and after /br •  . 
  where {{{ageAndGender}}} is the valide value of the ${query}.
 `;
     } else if (ConversationStep === 4) {
@@ -154,18 +155,21 @@ If "${query}" is included in the list, response では、メインターゲッ�
 
    You are a strict validator. Check if "${query}" is included in one of the cities in "${CITYLISTS}".
 
-If "${query}" is not included in the list, respond exactly with 'false' (not 'False', just 'false').
+If "${query}" is not included in the list behind • , respond exactly with 'false' (not 'False', just 'false').
 
-If "${query}" is included in the list, respond with a list of three areas around "${query}" where I can distribute "${OPENAIVALUES[0].value}" flyers for my "${OPENAIVALUES[1].value}" business. The main target audience is "${OPENAIVALUES[2].value}". 
+If the query ${query} is found in the list, respond with a list of three nearby 丁目 (districts or blocks) where I can distribute ${OPENAIVALUES[0].value} flyers for my ${OPENAIVALUES[1].value} business. If there are multiple 丁目 with the same name, format them as 丁目 Name(number) (e.g., 光が丘(1)). The main target audience for this distribution is ${OPENAIVALUES[2].value}.
+
+If the format is valid, respond with:
+ "ありがとうございます！下記エリアでの配布プランはいかがでしょうか？"
 
 Format the response strictly as follows without any additional text:
 
-[Area Name] [Number of Flyers]部
-[Area Name] [Number of Flyers]部
-[Area Name] [Number of Flyers]部
+/br • 丁目 Name Number of Flyers部
+/br • 丁目 Name Number of Flyers部
+/br • 丁目 Name Number of Flyers部
 
 
-    Ensure the list includes popular and relevant locations where this demographic is likely to reside or visit."
+Ensure the list includes popular and relevant locations where this demographic is likely to reside or visit."
       `;
     }
 
@@ -199,7 +203,6 @@ Format the response strictly as follows without any additional text:
         console.log(CITYLISTS);
         ConversationStep = 4;
       }
-
     } else {
       if (ConversationStep === 0) {
         const inputString = gptAnswer;
@@ -245,9 +248,8 @@ Format the response strictly as follows without any additional text:
         } else {
           console.log("No value found between slashes.");
         }
-      }else if(ConversationStep ===2){
-        ConversationStep = 3
-  
+      } else if (ConversationStep === 2) {
+        ConversationStep = 3;
       } else if (ConversationStep === 3) {
         const inputString = gptAnswer;
         const match = inputString?.match(/\/\/(.*?)\/\//);

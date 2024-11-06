@@ -1,6 +1,6 @@
 "use client";
 import { Loader } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Home() {
   const [query, setQuery] = useState<string>("");
@@ -84,7 +84,7 @@ export default function Home() {
                   )}
                   {message.text === "notBusiness" && (
                     <span>
-                    チラシ配布の価値を入力してください。またはビジネス目的には不適切です
+                      チラシ配布の価値を入力してください。またはビジネス目的には不適切です
                     </span>
                   )}
                 </div>
@@ -96,7 +96,14 @@ export default function Home() {
                       : "bg-gray-300 text-black"
                   } p-3 rounded-lg max-w-xs`}
                 >
-                  {message.text}
+                  <p>
+                    {message.text.split("/br").map((line:any, index:any) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                  </p>
                 </div>
               )}
             </div>
