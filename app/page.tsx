@@ -97,7 +97,7 @@ export default function Home() {
                   } p-3 rounded-lg max-w-xs`}
                 >
                   <p>
-                    {message.text.split("/br").map((line:any, index:any) => (
+                    {message.text.split("/br").map((line: any, index: any) => (
                       <React.Fragment key={index}>
                         {line}
                         <br />
