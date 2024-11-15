@@ -164,9 +164,10 @@ If the format is valid, respond with:
 
 Format the response strictly as follows without any additional text:
 
-/br • 丁目 Name Number in a comma-separated thousands of Flyers部
-/br • 丁目 Name Number in a comma-separated thousands of Flyers部
-/br • 丁目 Name Number in a comma-separated thousands of Flyers部
+/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
+/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
+/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
+
 
 
 Ensure the list includes popular and relevant locations where this demographic is likely to reside or visit."
