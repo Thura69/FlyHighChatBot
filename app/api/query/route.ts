@@ -98,7 +98,7 @@ export async function POST(req: any) {
   `;
     } else if (ConversationStep === 1) {
       prompt = `
-Translate "${query}" into Japanese. If the meaning of "${query}" is not related to flyer distribution or is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"),respond exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
+Translate "${query}" into Japanese. If the meaning of "${query}" is not related to flyer distribution or is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"),respond only exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
 
 Then, respond exactly with : 
 配布タイプを選択して下さい。/br
@@ -125,7 +125,7 @@ Use the reference: 'ジムの集客用折込ですね'.
 
 If "${query}" is not included in the list, respond exactly with 'false' (not 'False', just 'false').
 
-If "${query}" is included in the list, response では、メインターゲットを教えてください /br (例:30代女性, 20男性)
+If "${query}" is included in the list, response では、メインターゲットを教えてください /br (例:30代女性, 20代男性)
 
 `;
     } else if (ConversationStep === 3) {
@@ -137,17 +137,17 @@ If "${query}" is included in the list, response では、メインターゲッ�
 
  1. The format must be one of the following:
     (a) A number followed by 代女性 (e.g., 20代女性)
-    (b) A number followed by 男性 (e.g., 30男性)
+    (b) A number followed by 代男性 (e.g., 30代男性)
 
  2. Number Range:
-    The number in front of 代女性 or 男性 must be between 0 and 150 (inclusive).
+    The number in front of 代女性 or 代男性 must be between 0 and 150 (inclusive).
   
 
 If it doesn't match this structure or the number is out of range,respond exactly with 'false' (not 'False', just 'false').
 
   If the format is valid, respond with:
  "最後に集客の中心はどこを想定していますか？  //{{{ageAndGender}}}// "
- Then, List the three best places in Nerima City in Japan to distribute flyers for ${OPENAIVALUES[1].value} business, specifically targeting ${query}. Please provide only the names of the locations., using /br in front of each list and after /br •  . 
+ Then, List the three best places in Nerima City in Japan to distribute flyers for ${OPENAIVALUES[1].value} business, specifically targeting ${query}. Please provide only the names of the locations with japanese language. , using /br in front of each list and after /br •  . 
  where {{{ageAndGender}}} is the valide value of the ${query}.
 `;
     } else if (ConversationStep === 4) {
