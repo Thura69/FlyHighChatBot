@@ -98,7 +98,9 @@ export async function POST(req: any) {
   `;
     } else if (ConversationStep === 1) {
       prompt = `
-Translate "${query}" into Japanese. If the meaning of "${query}" is not related to flyer distribution or is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"),respond only exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
+      
+Translate "${query}" into Japanese. If the meaning of "${query}" is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"), respond only exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
+
 
 Then, respond exactly with : 
 配布タイプを選択して下さい。/br
@@ -129,8 +131,7 @@ If "${query}" is included in the list, response では、メインターゲッ�
 
 `;
     } else if (ConversationStep === 3) {
-
-    console.log(query)
+      console.log(query);
 
       prompt = `
  Ensure the "${query}" follows this exact format:
@@ -164,9 +165,9 @@ If the format is valid, respond with:
 
 Format the response strictly as follows without any additional text:
 
-/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
-/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
-/br • 丁目 Name [Number of Flyers with comma-separated thousands format] 部
+/br • 丁目 Name Number of Flyers with comma-separated thousands format 部
+/br • 丁目 Name Number of Flyers with comma-separated thousands format 部
+/br • 丁目 Name Number of Flyers with comma-separated thousands format 部
 
 
 
@@ -271,10 +272,10 @@ Ensure the list includes popular and relevant locations where this demographic i
         } else {
           console.log("No value found between double slashes.");
         }
-      }else if(ConversationStep === 4){
+      } else if (ConversationStep === 4) {
         ConversationStep = 5;
       }
-    } 
+    }
 
     return NextResponse.json(
       { answer: gptAnswer, nextStep: ConversationStep },
