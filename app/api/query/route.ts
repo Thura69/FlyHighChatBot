@@ -63,33 +63,13 @@ export async function POST(req: any) {
   The value of "${query}" must adhere to the following specifications, analyzed carefully step by step:
 
 
-  0. Pattern Requirement:
-     The value must precisely match the format (e.g., 'x,xxx部'). It should not deviate from this structure. If value does not follow the format respond with 'false' (not 'False', just 'false').
-
-  1. Ending Requirement:
-     The value cannot consist solely of numeric characters; it must conclude with '部'. 
-
-  2. Proper Formatting:
-     The value must be a properly formatted number. It should not resemble incorrect formats like '23324,234234' and must always end with '部'.
-
-  3. Comma-Separated Format:
-     The value must be in a comma-separated thousands format (e.g., '3,000部') and must include '部' at the end of the value.
-
-  4. Numeric Character Requirement:
-     Only numeric digits are permitted before '部', and these numbers must contain commas as thousands separators.
   
-  5. Prohibition of Extraneous Characters:
-     Any letters, special characters, or additional symbols before '部' are strictly forbidden.
 
-  6. Validity Check:
-     The value is valid only if it equals '3,000部' or exceeds this amount.
+  1. The number must be 3,000 or greater or equal with 3000.
 
-  
-  Convert the number before '部' into a plain number (without commas or separators).
+  2. The value must be a number followed by '部', in a comma-separated thousands format (e.g., '3,000部').
 
-  (a) If the value before '部' is equal to 3,000 or greater than 3,000.
-  
-  (b) Respond exactly with:
+  3. If the value meets these criteria, convert the number (before '部') to plain format (without commas) and respond with:
       ありがとうございます。では、今回のチラシ配布の目的を教えてください /br (例：新規オープンするパーソナルジムの集客案内チラシ). "{{{plain number}}}"
       where {{{plain number}}} is the converted number.
 
@@ -98,11 +78,10 @@ export async function POST(req: any) {
   `;
     } else if (ConversationStep === 1) {
       prompt = `
-      
-Translate "${query}" into Japanese. If the meaning of "${query}" is inappropriate for business purposes (e.g., "I want to kill the dog", "I want to steal something", "I want to poison the city", "I want to burn"), respond only exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
+Translate "${query}" into Japanese. If the meaning of "${query}" is not related with business purposes, respond only exactly with 'notBusiness' (not 'NotBusiness', just 'notBusiness').
 
 
-Then, respond exactly with : 
+If the meaning of "${query}" is  related with business purposes, respond exactly with : 
 配布タイプを選択して下さい。/br
 • 標準配布 /br
 • 一軒家指定 /br
