@@ -251,7 +251,9 @@ Ensure the list includes popular and relevant locations where this demographic i
         } else {
           console.log("No value found between double slashes.");
         }
-      } 
+      } else if (ConversationStep === 4) {
+        ConversationStep = 5;
+      }
     }
 
     return NextResponse.json(
