@@ -195,12 +195,10 @@ Ensure the list includes popular and relevant locations where this demographic i
       }
 
       if (ConversationStep === 3) {
-        console.log(CITYLISTS);
         ConversationStep = 3;
       }
 
       if (ConversationStep === 4) {
-        console.log(CITYLISTS);
         ConversationStep = 4;
       }
     } else {
@@ -272,8 +270,10 @@ Ensure the list includes popular and relevant locations where this demographic i
         } else {
           console.log("No value found between double slashes.");
         }
+      }else if(ConversationStep === 4){
+        ConversationStep = 5;
       }
-    }
+    } 
 
     return NextResponse.json(
       { answer: gptAnswer, nextStep: ConversationStep },
