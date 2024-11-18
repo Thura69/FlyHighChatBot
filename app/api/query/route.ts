@@ -158,7 +158,7 @@ Ensure the list includes popular and relevant locations where this demographic i
 
     let gptAnswer = completionResponse.choices[0].message.content;
 
-    if (gptAnswer == "false" || gptAnswer == "notBusiness") {
+    if (gptAnswer == "false" || gptAnswer == "notBusiness" || gptAnswer == "LessThan3000") {
       if (ConversationStep === 0) {
         ConversationStep = 0;
       }
