@@ -61,11 +61,8 @@ export async function POST(req: any) {
     if (ConversationStep === 0) {
       prompt = `
   The value of "${query}" must adhere to the following specifications, analyzed carefully step by step:
-
-
   
-
-  1. The number must be 3,000 or greater or equal with 3000.
+  1. The number must be 3,000 or greater or equal with 3000. if ${query} is less than 3,000. Response with 'lessThan3000' (not 'lessThan3000', just 'LessThan3000').
 
   2. The value must be a number followed by '部', in a comma-separated thousands format (e.g., '3,000部').
 
@@ -95,7 +92,6 @@ Use the reference: 'ジムの集客用折込ですね'.
 `;
     } else if (ConversationStep === 2) {
       prompt = `
-
     if the ${query} 
       
      You are a strict validator. Check if "${query}" is included in one of the cities in "
